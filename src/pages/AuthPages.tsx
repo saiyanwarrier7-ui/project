@@ -15,6 +15,7 @@ import {
   AlertCircle,
   CheckCircle2,
 } from 'lucide-react';
+import { GoogleSignInButton } from '../components/GoogleSignInButton';
 
 interface AuthPagesProps {
   mode: 'login' | 'register';
@@ -162,6 +163,30 @@ export const AuthPages: React.FC<AuthPagesProps> = ({
               <span>{error}</span>
             </div>
           )}
+
+          {/* Primary Google Auth Action */}
+          <div className="mb-6">
+            <GoogleSignInButton
+              label={mode === 'register' ? 'Register with Google Account' : 'Sign in with Google'}
+              isRegister={mode === 'register'}
+              onSuccess={(user, isNewUser) => {
+                onAuthSuccess(user);
+                onNavigate('student-dashboard');
+              }}
+              onError={(err) => setError(err)}
+            />
+
+            <div className="relative my-5">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-slate-200 dark:border-slate-800" />
+              </div>
+              <div className="relative flex justify-center text-[11px] uppercase tracking-wider">
+                <span className="bg-white dark:bg-slate-900 px-3 text-slate-400 font-semibold">
+                  {mode === 'register' ? 'Or register with email' : 'Or sign in with email'}
+                </span>
+              </div>
+            </div>
+          </div>
 
           {mode === 'login' ? (
             <form onSubmit={handleLogin} className="space-y-4">
